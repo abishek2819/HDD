@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disk Scheduling Simulator (HDD)</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Disk Scheduling Simulator</h1>
+            <p class="subtitle">Visualize and compare OS disk scheduling algorithms</p>
+        </header>
+
+        <main>
+            <section class="glass-card animate-fade">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="requestQueue">Request Queue (e.g. 98, 183, 37, 122, 14, 124, 65, 67)</label>
+                        <input type="text" id="requestQueue" placeholder="Enter track numbers separated by commas" value="98, 183, 37, 122, 14, 124, 65, 67">
+                    </div>
+                    <div class="input-group">
+                        <label for="initialHead">Initial Head Position</label>
+                        <input type="number" id="initialHead" placeholder="e.g. 53" value="53">
+                    </div>
+                    <div class="input-group">
+                        <label for="prevHead">Previous Position (Optional)</label>
+                        <input type="number" id="prevHead" placeholder="Detects direction">
+                    </div>
+                    <div class="input-group">
+                        <label for="diskSize">Disk Size (Tracks)</label>
+                        <input type="number" id="diskSize" placeholder="e.g. 200" value="200">
+                    </div>
+                    <div class="input-group">
+                        <label for="direction">Direction (for SCAN/LOOK)</label>
+                        <select id="direction">
+                            <option value="right">Right (Increasing)</option>
+                            <option value="left">Left (Decreasing)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-bottom: 1.5rem;">
+                    <label>Select Algorithm</label>
+                    <div class="algorithm-select" id="algoButtons">
+                        <div class="algo-btn active" data-algo="FCFS">FCFS</div>
+                        <div class="algo-btn" data-algo="SSTF">SSTF</div>
+                        <div class="algo-btn" data-algo="SCAN">SCAN</div>
+                        <div class="algo-btn" data-algo="C-SCAN">C-SCAN</div>
+                        <div class="algo-btn" data-algo="LOOK">LOOK</div>
+                        <div class="algo-btn" data-algo="C-LOOK">C-LOOK</div>
+                    </div>
+                </div>
+
+                <button class="action-btn" id="simulateBtn">Run Simulation</button>
+            </section>
+
+            <section class="glass-card animate-fade" style="animation-delay: 0.1s;">
+                <div class="results-header">
+                    <h2>Head Movement Visualization</h2>
+                    <div class="stat-card">
+                        <span class="stat-label">Current Algorithm</span>
+                        <span class="stat-value" id="currentAlgoLabel">FCFS</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="headMovementChart"></canvas>
+                </div>
+            </section>
+
+            <section class="glass-card animate-fade" style="animation-delay: 0.2s;">
+                <div class="results-header">
+                    <h2>Simulation Statistics</h2>
+                    <div style="display: flex; gap: 1rem;">
+                        <div class="stat-card">
+                            <span class="stat-label">Total Seek Time</span>
+                            <span class="stat-value" id="totalSeekTime">-</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-label">Avg Seek Time</span>
+                            <span class="stat-value" id="avgSeekTime">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Step</th>
+                                <th>From Track</th>
+                                <th>To Track</th>
+                                <th>Seek Distance</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody">
+                            <!-- Results will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
